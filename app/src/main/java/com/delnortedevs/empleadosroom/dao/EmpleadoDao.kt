@@ -8,7 +8,7 @@ import com.delnortedevs.empleadosroom.model.Empleado
 interface EmpleadoDao  {
 
     @Query("SELECT * FROM Empleado order by nombre ASC")
-    suspend fun getAll() : List<Empleado>
+     fun getAll() : LiveData<List<Empleado>>
 
     @Query("SELECT * from Empleado where nombre = :nombre")
     suspend fun getByName(nombre: String): Empleado

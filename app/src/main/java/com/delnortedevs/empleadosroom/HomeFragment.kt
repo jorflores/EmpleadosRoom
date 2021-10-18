@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
@@ -67,24 +68,28 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-/*
-            val empleado = Empleado("Kiam","RH","email")
-            app.database.EmpleadoDao().insertEmpleado(empleado)*/
 
-            val empleados = viewModel.getAll()
-            binding.textView.text = "Número de Empleados: ${empleados.size}"
 
-            val adapter = EmpleadosAdapter(requireContext(),empleados) {
-                Log.d("RoomTest", "${it.nombre}")
+         //   val empleados = viewModel.getAll()
 
-                val action = HomeFragmentDirections.actionHomeFragmentToActualizarEmpleadoFragment(nombre=it.nombre)
-               view.findNavController().navigate(action)
+            val cambios = viewModel.getAll().observe(viewLifecycleOwner, Observer {
+                binding.textView.text = "Número de Empleados: ${it.size}"
+
+                val adapter = EmpleadosAdapter(requireContext(),it) {
+                    Log.d("RoomTest", "${it.nombre}")
+
+                    val action = HomeFragmentDirections.actionHomeFragmentToActualizarEmpleadoFragment(nombre=it.nombre)
+                    view.findNavController().navigate(action)
+
+                }
+
+                binding.rvEmpleados.adapter = adapter
+                binding.rvEmpleados.layoutManager = LinearLayoutManager(requireContext())
+
+            })
+
 
             }
-
-            binding.rvEmpleados.adapter = adapter
-            binding.rvEmpleados.layoutManager = LinearLayoutManager(requireContext())
-
 
             binding.buttonAlta.setOnClickListener{
                findNavController().navigate(R.id.action_homeFragment_to_altaEmpleadoFragment)
@@ -92,7 +97,7 @@ class HomeFragment : Fragment() {
 
            // Log.d("RoomTest", "${empleados.size}")
         }
-    }
+
 
     companion object {
         /**
