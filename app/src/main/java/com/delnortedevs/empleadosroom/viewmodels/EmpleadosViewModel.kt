@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
 import com.delnortedevs.empleadosroom.dao.EmpleadoDao
 import com.delnortedevs.empleadosroom.model.Empleado
 
@@ -12,6 +14,13 @@ class EmpleadosViewModel (private val empleadoDao: EmpleadoDao) : ViewModel()
     suspend fun getAll() : List<Empleado> = empleadoDao.getAll()
 
     suspend fun insertEmpleado(empleado: Empleado) = empleadoDao.insertEmpleado(empleado)
+
+    suspend fun getByName(nombre: String) : Empleado = empleadoDao.getByName(nombre)
+
+    suspend fun updateEmpleado(empleado: Empleado) = empleadoDao.updateEmpleado(empleado)
+
+    suspend fun deleteEmpleado(empleado: Empleado) = empleadoDao.deleteEmpleado(empleado)
+
 
 }
 

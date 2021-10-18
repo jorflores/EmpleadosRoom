@@ -1,10 +1,20 @@
 package com.delnortedevs.empleadosroom
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.delnortedevs.empleadosroom.databinding.FragmentActualizarEmpleadoBinding
+import com.delnortedevs.empleadosroom.model.Empleado
+import com.delnortedevs.empleadosroom.viewmodels.EmpleadosViewModel
+import com.delnortedevs.empleadosroom.viewmodels.EmpleadosViewModelFactory
+import kotlinx.coroutines.launch
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,20 +31,96 @@ class ActualizarEmpleadoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    private var _binding: FragmentActualizarEmpleadoBinding? = null
+
+    private val binding get() = _binding!!
+
+    private lateinit var nombre: String
+
+    private var empladoId = 0
+
+    private val viewModel: EmpleadosViewModel by activityViewModels {
+        EmpleadosViewModelFactory(
+            (activity?.application as EmpleadoApp).database.EmpleadoDao()
+        )
+    }
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            nombre = it.getString("nombre").toString()
         }
+
+        Log.d("RoomTest", "LLegó el empleado: $nombre")
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_actualizar_empleado, container, false)
+        _binding = FragmentActualizarEmpleadoBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        lifecycleScope.launch {
+            val empleado = viewModel.getByName(nombre)
+
+            binding.editTextNombre.setText(empleado.nombre)
+            binding.editTextDepartamento.setText(empleado.departamento)
+            binding.editTextEmail.setText(empleado.email)
+            empladoId = empleado.id
+
+        }
+
+
+        binding.buttonActualizarEmpleado.setOnClickListener{
+
+            val nombre = binding.editTextNombre.text.toString()
+            val departamento = binding.editTextDepartamento.text.toString()
+            val correo = binding.editTextEmail.text.toString()
+
+            val empleado = Empleado(empladoId,nombre,departamento,correo)
+
+            lifecycleScope.launch {
+                val actualizar = viewModel.updateEmpleado(empleado)
+                findNavController().navigate(R.id.action_actualizarEmpleadoFragment_to_homeFragment)
+            }
+
+
+        }
+
+        binding.buttonEliminar.setOnClickListener{
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setMessage("Eliminar este empleado?")
+                    .setCancelable(false)
+                    .setPositiveButton("Si") { _, _ ->
+                        // Delete
+                        lifecycleScope.launch {
+                            viewModel.deleteEmpleado(Empleado(empladoId, "", "", ""))
+                            findNavController().navigate(R.id.action_actualizarEmpleadoFragment_to_homeFragment)
+                        }
+                    }
+                    .setNegativeButton("No") { dialog, _ ->
+                        // Dismiss the dialog
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+
+
+
+
+
+        }
+
+
     }
 
     companion object {

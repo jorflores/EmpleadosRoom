@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.delnortedevs.empleadosroom.databinding.FragmentAltaEmpleadoBinding
 import com.delnortedevs.empleadosroom.databinding.FragmentHomeBinding
 import com.delnortedevs.empleadosroom.model.Empleado
@@ -73,6 +74,7 @@ class AltaEmpleadoFragment : Fragment() {
 
                 if (insertEmpleado >0){
                     Toast.makeText(activity,"Empleado dada de alta",Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_altaEmpleadoFragment_to_homeFragment)
                 }
                 Log.d("RoomTest",insertEmpleado.toString())
 

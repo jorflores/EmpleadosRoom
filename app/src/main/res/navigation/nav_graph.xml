@@ -21,7 +21,11 @@
         android:id="@+id/altaEmpleadoFragment"
         android:name="com.delnortedevs.empleadosroom.AltaEmpleadoFragment"
         android:label="fragment_alta_empleado"
-        tools:layout="@layout/fragment_alta_empleado" />
+        tools:layout="@layout/fragment_alta_empleado" >
+        <action
+            android:id="@+id/action_altaEmpleadoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/actualizarEmpleadoFragment"
         android:name="com.delnortedevs.empleadosroom.ActualizarEmpleadoFragment"
@@ -30,5 +34,8 @@
         <argument
             android:name="nombre"
             app:argType="string" />
+        <action
+            android:id="@+id/action_actualizarEmpleadoFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

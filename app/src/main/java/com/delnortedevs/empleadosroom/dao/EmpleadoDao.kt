@@ -10,16 +10,16 @@ interface EmpleadoDao  {
     @Query("SELECT * FROM Empleado order by nombre ASC")
     suspend fun getAll() : List<Empleado>
 
-/*    @Query("SELECT * from Empleado where nombre = :nombre")
-    fun getByName(nombre: String)
-    */
+    @Query("SELECT * from Empleado where nombre = :nombre")
+    suspend fun getByName(nombre: String): Empleado
+
     @Insert
     suspend fun insertEmpleado(empleado: Empleado) : Long
 
     @Update
-    suspend fun updateEmpleado(empleado: Empleado)
+    suspend fun updateEmpleado(empleado: Empleado) : Int
 
     @Delete
-    suspend fun deleteempleado(empleado: Empleado)
+    suspend fun deleteEmpleado(empleado: Empleado)
 
 }

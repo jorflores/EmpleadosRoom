@@ -14,17 +14,29 @@ import kotlin.coroutines.coroutineContext
 
 
 
-class EmpleadosAdapter (val context: Context, var empleados: List<Empleado>): RecyclerView.Adapter<EmpleadosAdapter.ViewHolder>() {
+class EmpleadosAdapter (val context: Context, var empleados: List<Empleado>,private val onItemclicked: (Empleado)-> Unit): RecyclerView.Adapter<EmpleadosAdapter.ViewHolder>() {
 
-    class ViewHolder (val binding: ListaEmpleadosBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder (val binding: ListaEmpleadosBinding,onItemclicked: (Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
 
-
+        init {
+            itemView.setOnClickListener{
+                onItemclicked(adapterPosition)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ListaEmpleadosBinding.inflate(layoutInflater,parent,false)
-        return ViewHolder(binding)
+        return ViewHolder(binding) {
+            onItemclicked(empleados[it])
+        }
+
+/*        val viewHolder = LayoutInflater.from(parent.context).inflate(R.layout.lista_empleados, parent, false)
+        return ViewHolder(viewHolder) {
+            onItemClick(values[it])
+        }
+        */
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,14 +49,14 @@ class EmpleadosAdapter (val context: Context, var empleados: List<Empleado>): Re
         }
 
 
-        holder.binding.cardviewId.setOnClickListener{
+   /*     holder.binding.cardviewId.setOnClickListener{
             Toast.makeText(context,position.toString(),Toast.LENGTH_SHORT).show()
 
             val action = HomeFragmentDirections.actionHomeFragmentToActualizarEmpleadoFragment(nombre=empleados[position].nombre)
 
           //  findNavController().navigate(R.id.action_homeFragment_to_altaEmpleadoFragment)
 
-        }
+        }*/
 
     }
 

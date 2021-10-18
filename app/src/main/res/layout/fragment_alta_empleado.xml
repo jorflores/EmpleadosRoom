@@ -58,13 +58,13 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/button_altaEmpleado"
+        app:layout_constraintBottom_toTopOf="@+id/button_AltaEmpleado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button_altaEmpleado"
+        android:id="@+id/button_AltaEmpleado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="156dp"

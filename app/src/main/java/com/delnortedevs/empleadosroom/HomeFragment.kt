@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.delnortedevs.empleadosroom.adapter.EmpleadosAdapter
@@ -73,7 +74,14 @@ class HomeFragment : Fragment() {
             val empleados = viewModel.getAll()
             binding.textView.text = "Número de Empleados: ${empleados.size}"
 
-            val adapter = EmpleadosAdapter(requireContext(),empleados)
+            val adapter = EmpleadosAdapter(requireContext(),empleados) {
+                Log.d("RoomTest", "${it.nombre}")
+
+                val action = HomeFragmentDirections.actionHomeFragmentToActualizarEmpleadoFragment(nombre=it.nombre)
+               view.findNavController().navigate(action)
+
+            }
+
             binding.rvEmpleados.adapter = adapter
             binding.rvEmpleados.layoutManager = LinearLayoutManager(requireContext())
 
