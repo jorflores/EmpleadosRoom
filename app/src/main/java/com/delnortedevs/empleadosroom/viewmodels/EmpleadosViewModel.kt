@@ -1,0 +1,30 @@
+package com.delnortedevs.empleadosroom.viewmodels
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.room.Insert
+import com.delnortedevs.empleadosroom.dao.EmpleadoDao
+import com.delnortedevs.empleadosroom.model.Empleado
+
+class EmpleadosViewModel (private val empleadoDao: EmpleadoDao) : ViewModel()
+{
+    suspend fun getAll() : List<Empleado> = empleadoDao.getAll()
+
+    suspend fun insertEmpleado(empleado: Empleado) = empleadoDao.insertEmpleado(empleado)
+
+}
+
+class EmpleadosViewModelFactory (private val empleadoDao: EmpleadoDao) : ViewModelProvider.Factory {
+
+
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(EmpleadosViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return EmpleadosViewModel(empleadoDao) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
+
+
+}
