@@ -76,7 +76,6 @@ class ActualizarEmpleadoFragment : Fragment() {
             binding.editTextDepartamento.setText(empleado.departamento)
             binding.editTextEmail.setText(empleado.email)
             empladoId = empleado.id
-
         }
 
 

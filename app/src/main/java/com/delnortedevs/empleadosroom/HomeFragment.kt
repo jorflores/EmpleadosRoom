@@ -35,7 +35,6 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentHomeBinding? = null
-
     private val binding get() = _binding!!
 
 
@@ -80,12 +79,10 @@ class HomeFragment : Fragment() {
 
                     val action = HomeFragmentDirections.actionHomeFragmentToActualizarEmpleadoFragment(nombre=it.nombre)
                     view.findNavController().navigate(action)
-
                 }
 
                 binding.rvEmpleados.adapter = adapter
                 binding.rvEmpleados.layoutManager = LinearLayoutManager(requireContext())
-
             })
 
 

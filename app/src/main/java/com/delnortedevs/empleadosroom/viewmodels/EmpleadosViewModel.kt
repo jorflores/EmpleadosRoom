@@ -11,7 +11,7 @@ import com.delnortedevs.empleadosroom.model.Empleado
 
 class EmpleadosViewModel (private val empleadoDao: EmpleadoDao) : ViewModel()
 {
-    suspend fun getAll() : LiveData<List<Empleado>> = empleadoDao.getAll()
+    fun getAll() : LiveData<List<Empleado>> = empleadoDao.getAll()
 
     suspend fun insertEmpleado(empleado: Empleado) = empleadoDao.insertEmpleado(empleado)
 
